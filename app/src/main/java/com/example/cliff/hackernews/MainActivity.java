@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         // Begin extracting data from Hacker News
         DownloadTask task = new DownloadTask();
         try {
+            titles.clear();
+            content.clear();
             task.execute("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
                 dbHandler.clearDatabase();
 
-                for (int i = 0; i < listViewSize; i++) {
+                for (int i = 0; titles.size() < listViewSize; i++) {
 
                     // Access article data with the ID
                     result = "";
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         urlConnection = (HttpURLConnection) url.openConnection();
                         reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                         while ((line = reader.readLine()) != null) {
-                            result += line;
+                            result += (line + "\n");
                         }
                         content.add(result);
 
@@ -156,10 +158,14 @@ public class MainActivity extends AppCompatActivity {
             do {
                 titles.add(c.getString(titleIndex));
                 content.add(c.getString(contentIndex));
+
             } while (c.moveToNext());
 
             arrayAdapter.notifyDataSetChanged();
+            c.close();
         }
+
+        db.close();
     }
 }
 

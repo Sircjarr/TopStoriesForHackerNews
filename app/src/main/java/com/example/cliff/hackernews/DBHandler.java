@@ -24,7 +24,8 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
-    //  Run only when the database file did not exist and was just created
+    // Create new database table
+        //  Run only when the database file did not exist and was just created
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_HACKERNEWS + " (" +
@@ -34,7 +35,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    // Called when version is upgraded; clears the table and creates a new one
+    // Clear table and create a new, updated one
+        // Called when version is upgraded
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // DROP = delete entire
@@ -54,6 +56,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // insert a new row into table
         db.insert(TABLE_HACKERNEWS, null, values);
+        db.close();
     }
 
     public void clearDatabase() {
