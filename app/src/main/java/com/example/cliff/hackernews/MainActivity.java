@@ -20,7 +20,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -47,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         // Begin extracting data from Hacker News
         DownloadTask task = new DownloadTask();
         try {
-            titles.clear();
-            content.clear();
             task.execute("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 dbHandler.clearDatabase();
+                int count = 0;
 
-                for (int i = 0; titles.size() < listViewSize; i++) {
+                for (int i = 0; count < listViewSize; i++) {
 
                     // Access article data with the ID
                     result = "";
@@ -111,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // Store titles and content of URLS if they exist
                     if (!jo.isNull("title") && !jo.isNull("url")) {
-                        titles.add(jo.getString("title"));
 
                         result = "";
                         url = new URL(jo.getString("url"));
@@ -120,16 +117,12 @@ public class MainActivity extends AppCompatActivity {
                         while ((line = reader.readLine()) != null) {
                             result += (line + "\n");
                         }
-                        content.add(result);
 
                         dbHandler.addArticle(jo.getString("title"), result);
+                        count++;
                     }
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
@@ -146,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateListView() {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM " + dbHandler.TABLE_HACKERNEWS, null);
+        Cursor c = db.rawQuery("SELECT * FROM " + DBHandler.TABLE_HACKERNEWS, null);
 
-        int titleIndex = c.getColumnIndex(dbHandler.COLUMN_TITLES);
-        int contentIndex = c.getColumnIndex(dbHandler.COLUMN_CONTENT);
+        int titleIndex = c.getColumnIndex(DBHandler.COLUMN_TITLES);
+        int contentIndex = c.getColumnIndex(DBHandler.COLUMN_CONTENT);
 
         if (c.moveToFirst()) {
             titles.clear();

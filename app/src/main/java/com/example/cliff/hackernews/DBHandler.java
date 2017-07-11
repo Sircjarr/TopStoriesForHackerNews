@@ -5,10 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Cliff on 7/6/2017.
- */
-
 public class DBHandler extends SQLiteOpenHelper {
     // Adding columns to the database will affect the version
     private static final int DATABASE_VERSION = 2;
