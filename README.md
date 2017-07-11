@@ -7,6 +7,7 @@ A web application that pulls the top stories from Hacker News and stores them re
   <li>Permanant data storage with SQLiteDatabase</li>
   <li>Handler class using SQLiteOpenHelper</li>
   <li>Viewing webpages</li>
+  <li>Parsing JSON</li>
   <li>Separate activities</li>
   <li>Interactive ListView</li>
 </ul>
