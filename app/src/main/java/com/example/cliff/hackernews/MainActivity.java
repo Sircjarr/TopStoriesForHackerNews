@@ -138,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateListView() {
-        SQLiteDatabase db = dbHandler.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM " + DBHandler.TABLE_HACKERNEWS, null);
+        Cursor c = dbHandler.getCursor();
 
         int titleIndex = c.getColumnIndex(DBHandler.COLUMN_TITLES);
         int contentIndex = c.getColumnIndex(DBHandler.COLUMN_CONTENT);
@@ -157,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
             arrayAdapter.notifyDataSetChanged();
             c.close();
         }
-
-        db.close();
     }
 }
 

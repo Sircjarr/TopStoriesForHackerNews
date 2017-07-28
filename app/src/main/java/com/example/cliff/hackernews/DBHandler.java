@@ -2,6 +2,7 @@ package com.example.cliff.hackernews;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -58,5 +59,11 @@ public class DBHandler extends SQLiteOpenHelper {
     public void clearDatabase() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_HACKERNEWS);
+    }
+
+    public Cursor getCursor() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_HACKERNEWS, null);
+        return data;
     }
 }
