@@ -6,11 +6,47 @@
     android:layout_height="match_parent"
     tools:context="com.example.cliff.hackernews.MainActivity">
 
-    <ListView
-        android:id="@+id/titleListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:padding="0dp" />
+        android:layout_margin="5dp">
+
+        <Button
+            android:id="@+id/btnReadFromSQL"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="onClick"
+            android:text="@string/read_from_sqlite" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnReadFromSQL"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <Button
+            android:id="@+id/btnAsyncTask"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="50"
+            android:onClick="onClick"
+            android:text="@string/refresh_with_asynctask"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btnRetrofit"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="50"
+            android:onClick="onClick"
+            android:text="@string/refresh_with_retrofit"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
+    </RelativeLayout>
+
 </android.widget.RelativeLayout>

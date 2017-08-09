@@ -1,4 +1,4 @@
-package com.example.cliff.hackernews;
+package com.example.cliff.hackernews.Util;
 
 import android.content.ContentValues;
 import android.content.Context;
