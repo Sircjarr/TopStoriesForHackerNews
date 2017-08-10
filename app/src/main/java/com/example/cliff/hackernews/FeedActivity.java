@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cliff.hackernews.Util.DBHandler;
@@ -25,22 +26,32 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class FeedActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
     DBHandler dbHandler;
 
-    private final String COMMAND_SQLITE = "Reading from SQLite Database";
+    private final String COMMAND_SQLITE = "Retrieving from SQLite Database";
     private final String COMMAND_ASYNCTASK = "Refreshing with AsyncTask";
     private final String COMMAND_RETROFIT = "Refreshing with Retrofit";
     private final String NO_SQL_DATA = "No data in SQLite Database";
 
-    ListView titleListView;
+    private TextView tvTaskSpeed;
+    private ListView lvTitles;
+    private String speedOfTask;
 
-    ArrayList<String> titles = new ArrayList<>();
-    ArrayList<String> content = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
+    private int command;
+
+    private double taskBegin;
+    private double taskEnd;
+
+    private ArrayList<String> titles = new ArrayList<>();
+    private ArrayList<String> content = new ArrayList<>();
+    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +66,7 @@ public class FeedActivity extends AppCompatActivity {
 
         // Get the command from MA
         Intent intent = getIntent();
-        int command = intent.getIntExtra("command", 0);
+        command = intent.getIntExtra("command", 0);
 
         // Update the listView with the command
         switch(command) {
@@ -63,6 +74,8 @@ public class FeedActivity extends AppCompatActivity {
 
                 progressDialog.setMessage(COMMAND_SQLITE);
                 progressDialog.show();
+
+                speedOfTask = COMMAND_SQLITE;
 
                 readFromSQL();
                 break;
@@ -72,6 +85,9 @@ public class FeedActivity extends AppCompatActivity {
                 progressDialog.setMessage(COMMAND_ASYNCTASK);
                 progressDialog.show();
 
+                speedOfTask = COMMAND_ASYNCTASK;
+
+                taskBegin = System.currentTimeMillis();
                 refreshWithAsyncTask();
                 break;
 
@@ -80,6 +96,9 @@ public class FeedActivity extends AppCompatActivity {
                 progressDialog.setMessage(COMMAND_RETROFIT);
                 progressDialog.show();
 
+                speedOfTask = COMMAND_RETROFIT;
+
+                taskBegin = System.currentTimeMillis();
                 refreshWithRetrofit();
                 break;
         }
@@ -102,9 +121,6 @@ public class FeedActivity extends AppCompatActivity {
 
             setTitleListView();
             c.close();
-        }
-        else {
-            // Set text to no Data in the database
         }
     }
 
@@ -191,23 +207,28 @@ public class FeedActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
+            taskEnd = System.currentTimeMillis();
             readFromSQL();
         }
     }
 
     // --------------------- Retrofit ------------------------------
     public void refreshWithRetrofit() {
-        ;
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(HackerNewsAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 
     // -------------- Setup ListView ------------------------
     public void setTitleListView() {
-        titleListView = (ListView) findViewById(R.id.titleListView);
+        tvTaskSpeed = (TextView) findViewById(R.id.tvTaskSpeed);
+        lvTitles = (ListView) findViewById(R.id.lvTitles);
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titles);
-        titleListView.setAdapter(arrayAdapter);
+        lvTitles.setAdapter(arrayAdapter);
 
-        titleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvTitles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), WebActivity.class);
@@ -217,6 +238,28 @@ public class FeedActivity extends AppCompatActivity {
         });
 
         progressDialog.hide();
+
+        // Display the speed of the requested task
+        if (command != MainActivity.SQLITE) {
+            if (titles.size() != 0) {
+
+                double taskSpeed = ((taskEnd - taskBegin) / 1000);
+                taskSpeed = round(taskSpeed, 1);
+
+                speedOfTask += " took\n" + taskSpeed + " seconds";
+                tvTaskSpeed.setText(speedOfTask);
+            } else {
+                tvTaskSpeed.setText(NO_SQL_DATA);
+            }
+        }
+        else {
+            tvTaskSpeed.setText("Retrieved from SQLite Database");
+        }
+    }
+
+    private static double round(double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
     }
 }
 

@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.cliff.hackernews.MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTaskSpeed"
+        android:gravity="center"
+        android:textSize="20sp" />
+
     <ListView
-        android:id="@+id/titleListView"
+        android:id="@+id/lvTitles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tvTaskSpeed"
         android:padding="0dp" />
+
 </android.widget.RelativeLayout>
