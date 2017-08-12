@@ -5,7 +5,7 @@ An app that pulls the top stories from Hacker News and stores them remotely in a
 <ul>
   <li>Hacker News API <a href="https://github.com/HackerNews/API">https://github.com/HackerNews/API</a></li>
   <li>Parsing JSON objects with <a href="http://square.github.io/retrofit/">Retrofit</a></li>
-  <li>Parsing raw HTML data with RF interceptor</li>
+  <li>Parsing raw HTML data with Retrofit</li>
   <li>Using AsyncTask to make Synchronous RF calls</li>
   <li>Permanant data storage with SQLiteDatabase</li>
   <li>Handler class using SQLiteOpenHelper</li>
