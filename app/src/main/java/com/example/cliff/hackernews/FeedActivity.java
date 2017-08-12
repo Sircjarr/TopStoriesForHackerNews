@@ -298,7 +298,7 @@ public class FeedActivity extends AppCompatActivity {
                         Response<ResponseBody> htmlResponse = htmlCall.execute();
 
                         // Add the title and html Data to the SQLite Database
-                        dbHandler.addArticle(storyResponse.body().getTitle(), storyResponse.body().getUrl());
+                        dbHandler.addArticle(storyResponse.body().getTitle(), htmlResponse.body().string());
 
                         count++;
                     }
