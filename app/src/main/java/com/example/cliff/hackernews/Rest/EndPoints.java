@@ -12,6 +12,7 @@ public interface EndPoints {
 
     // Static call
         // GET requests will be prefixed with the common BASE_URL
+        // int[] is the type returned from the call ( response.body() )
     @GET("topstories.json?print=pretty")
     Call<int[]> getID();
 
