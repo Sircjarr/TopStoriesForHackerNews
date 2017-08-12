@@ -21,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
+
         final int id = v.getId();
+
         int command = 0;
         switch (id) {
             case R.id.btnReadFromSQL:

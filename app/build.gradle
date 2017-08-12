@@ -31,6 +31,9 @@ dependencies {
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
 
-    //Retrofit JSON
+    //Retrofit GSON
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+
+    // Retrofit interceptor for raw data
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 }
