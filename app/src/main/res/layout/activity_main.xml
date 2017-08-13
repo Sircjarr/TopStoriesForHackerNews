@@ -21,11 +21,20 @@
             android:layout_centerHorizontal="true"
             android:onClick="onClick"
             android:text="@string/read_from_sqlite" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="OR"
+            android:id="@+id/tvOr"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/btnReadFromSQL"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnReadFromSQL"
+        android:layout_below="@+id/tvOr"
         android:orientation="horizontal"
         android:weightSum="100">
 
@@ -36,7 +45,7 @@
             android:layout_weight="50"
             android:onClick="onClick"
             android:text="@string/refresh_with_asynctask"
-            tools:ignore="ButtonStyle" />
+            android:background="@drawable/blue_onclick_red"/>
 
         <Button
             android:id="@+id/btnRetrofit"
@@ -45,7 +54,8 @@
             android:layout_weight="50"
             android:onClick="onClick"
             android:text="@string/refresh_with_retrofit"
-            tools:ignore="ButtonStyle" />
+            android:background="@drawable/green_onclick_white" />
+
     </LinearLayout>
     </RelativeLayout>
 

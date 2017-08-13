@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- this is the layout when button is pressed down -->
+    <item
+        android:state_pressed="true">
+        <shape>
+            <!-- google hex color for whatever color -->
+            <solid
+                android:color="#FF4081"/>
+            <!-- border -->
+            <stroke
+                android:color="#2f6699"
+                android:width="1dp"/>
+            <corners
+                android:radius="3dp"/>
+            <padding
+                android:left="10dp"
+                android:right="10dp"
+                android:top="10dp"
+                android:bottom="10dp"/>
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid
+                android:color="#449def"/>
+            <stroke
+                android:color="#2f6699"
+                android:width="1dp"/>
+            <corners
+                android:radius="3dp"/>
+            <padding
+                android:left="10dp"
+                android:right="10dp"
+                android:top="10dp"
+                android:bottom="10dp"/>
+        </shape>
+    </item>
+</selector>
