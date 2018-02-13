@@ -167,7 +167,6 @@ public class FeedActivity extends AppCompatActivity {
         protected String doInBackground(String... urls) {
 
             // Get the ID's of the articles
-            String result = "";
             URL url;
             HttpURLConnection urlConnection;
 
@@ -178,12 +177,13 @@ public class FeedActivity extends AppCompatActivity {
                         new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
                 String line;
+                StringBuilder sb = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
-                    result += line;
+                    sb.append(line);
                 }
 
                 // Establish how big ListView should be
-                JSONArray ja = new JSONArray(result);
+                JSONArray ja = new JSONArray(sb.toString());
                 if (ja.length() < listViewSize) {
                     listViewSize = ja.length();
                 }
@@ -196,31 +196,31 @@ public class FeedActivity extends AppCompatActivity {
                 for (int i = 0; count < listViewSize; i++) {
 
                     // Access article data with the ID
-                    result = "";
                     url = new URL("https://hacker-news.firebaseio.com/v0/item/" +
                             ja.getString(i) + ".json?print=pretty");
                     urlConnection = (HttpURLConnection) url.openConnection();
                     reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
+                    sb.setLength(0);
                     while ((line = reader.readLine()) != null) {
-                        result += line;
+                        sb.append(line);
                     }
 
-                    JSONObject jo = new JSONObject(result);
+                    JSONObject jo = new JSONObject(sb.toString());
 
                     // Store titles and content of URLS if they exist
                     if (!jo.isNull("title") && !jo.isNull("url")) {
 
-                        result = "";
                         url = new URL(jo.getString("url"));
                         urlConnection = (HttpURLConnection) url.openConnection();
                         reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
+                        sb.setLength(0);
                         while ((line = reader.readLine()) != null) {
-                            result += (line + "\n");
+                            sb.append(line).append("\n");
                         }
 
-                        dbHandler.addArticle(jo.getString("title"), result);
+                        dbHandler.addArticle(jo.getString("title"), sb.toString());
                         count++;
                     }
                 }
