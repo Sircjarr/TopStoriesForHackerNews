@@ -11,6 +11,7 @@ An app that pulls the top stories from Hacker News and stores them remotely in a
   <li>Handler class using SQLiteOpenHelper</li>
   <li>Parsing JSON with AsyncTask</li>
   <li>Displays execution time for comparisons between the clients</li>
+  <li>StringBuilder for faster generation of Strings</li>
   <li>Custom buttons</li>
   <li>Viewing webpages</li>
   <li>Interactive ListView</li>
